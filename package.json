@@ -1,0 +1,132 @@
+{
+	"name": "autotest",
+	"displayName": "AutoTest For Andriod",
+	"description": "auto test for andriod.",
+	"version": "0.0.1",
+	"publisher": "autodev",
+	"engines": {
+		"vscode": "^1.51.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"license": "SEE LICENSE IN LICENSE.txt",
+	"activationEvents": [
+		"onCommand:autotest.helloWorld"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "autotest-pannel",
+					"title": "AutoTest Panel",
+					"icon": "resources/icons/nc-test-outline-64px_diamond.svg"
+				}
+			]
+		},
+		"views": {
+			"autotest-pannel": [
+				{
+					"id": "autotest.devices",
+					"name": "Devices",
+					"icon": "resources/icons/phone.svg"
+				},
+				{
+					"id": "autotest.editors",
+					"name": "Open Editors"
+				},
+				{
+					"id": "autotest.outline",
+					"name": "Outline",
+					"visibility": "collapsed"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "autotest.devices",
+				"contents": "No device is detected. Please make sure to connect the android phone to the computer.\n[Check Again](command:devices.check)\n[Restart ADB Server](command:kill.adb-server)"
+			}
+		],
+		"commands": [
+			{
+				"command": "autotest.helloWorld",
+				"title": "Hello World"
+			},
+			{
+				"command": "devices.refresh",
+				"title": "Refresh Devices",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "devices.new",
+				"title": "Add a new device.",
+				"icon": "$(plus)"
+			},
+			{
+				"command": "devices.delete",
+				"title": "Delete devices.",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "devices.watch",
+				"title": "Listening device connection status.",
+				"icon": "$(eye-watch)"
+			},
+			{
+				"command": "devices.watch",
+				"title": "Listening device connection status.",
+				"icon": "$(eye-closed)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "devices.refresh",
+					"when": "view == autotest.devices",
+					"group": "navigation"
+				},
+				{
+					"command": "devices.new",
+					"when": "view == autotest.devices",
+					"group": "navigation"
+				},
+				{
+					"command": "devices.delete",
+					"when": "view == autotest.devices",
+					"group": "navigation"
+				}
+			]
+		}
+	},
+	"enableProposedApi": true,
+	"scripts": {
+		"vscode:prepublish": "yarn run package",
+		"compile": "webpack --devtool nosources-source-map --config ./build/node-extension.webpack.config.js",
+		"watch": "webpack --watch --devtool nosources-source-map --info-verbosity verbose --config ./build/node-extension.webpack.config.js",
+		"package": "webpack --mode production --config ./build/node-extension.webpack.config.js",
+		"test-compile": "tsc -p ./",
+		"test-watch": "tsc -watch -p ./",
+		"pretest": "yarn run test-compile && yarn run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.0",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.51.0",
+		"@typescript-eslint/eslint-plugin": "^4.1.1",
+		"@typescript-eslint/parser": "^4.1.1",
+		"appium-adb": "^8.9.1",
+		"eslint": "^7.9.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.1.3",
+		"ts-loader": "^8.0.3",
+		"typescript": "^4.0.2",
+		"vscode-test": "^1.4.0",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12"
+	}
+}
