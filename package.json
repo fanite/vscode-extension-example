@@ -12,6 +12,7 @@
 	],
 	"license": "SEE LICENSE IN LICENSE.txt",
 	"activationEvents": [
+		"onDebug",
 		"onCommand:autotest.helloWorld"
 	],
 	"main": "./dist/extension.js",
@@ -26,20 +27,11 @@
 			]
 		},
 		"views": {
-			"autotest-pannel": [
+			"debug": [
 				{
 					"id": "autotest.devices",
 					"name": "Devices",
 					"icon": "resources/icons/phone.svg"
-				},
-				{
-					"id": "autotest.editors",
-					"name": "Open Editors"
-				},
-				{
-					"id": "autotest.outline",
-					"name": "Outline",
-					"visibility": "collapsed"
 				}
 			]
 		},
@@ -98,7 +90,71 @@
 					"group": "navigation"
 				}
 			]
-		}
+		},
+		"debuggers": [
+			{
+				"type": "autotest",
+				"label": "Autotest for Andriod (Python)",
+				"runtime": "python",
+				"languages": ["python"],
+				"configurationAttributes": {
+					"launch": {
+						"properties": {
+							"cwd": {
+								"type": "string",
+								"description": "Absolute path to the working directory of the program being debugged. Default is the current workspace.",
+								"default": "${workspaceRoot}"
+							},
+							"envFile": {
+                                "type": "string",
+                                "description": "Absolute path to a file containing environment variable definitions.",
+                                "default": "${workspaceFolder}/.env"
+                            }
+						}
+					}
+				},
+				"initialConfigurations": [
+					{
+						"name": "TestCase file debug (Python)",
+						"type": "python",
+						"request": "launch",
+						"program": "${file}",
+						"console":"integratedTerminal"
+					},
+					{
+						"name": "TestCase suite debug (Python)",
+						"type": "python",
+						"request": "launch",
+						"program": "${workspaceFolder}/main.py",
+						"console":"integratedTerminal"
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "TestCase file debug (Python)",
+						"description": "Debug the test case in the current program",
+						"body": {
+							"name": "${2:TestCase file debug (Python)}",
+							"type": "python",
+							"request": "launch",
+							"program": "^\"${1:\\${file\\}}\"",
+							"console":"integratedTerminal"
+						}
+					},
+					{
+						"label": "TestCase suite debug (Python)",
+						"description": "Debug the test suite.",
+						"body": {
+							"name": "${2:TestCase suite debug (Python)}",
+							"type": "python",
+							"request": "launch",
+							"program": "^\"${1:\\${workspaceFolder\\}/main.py}\"",
+							"console":"integratedTerminal"
+						}
+					}
+				]
+			}
+		]
 	},
 	"enableProposedApi": true,
 	"scripts": {
@@ -113,13 +169,13 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
+		"@devicefarmer/adbkit": "^2.11.3",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^8.0.0",
 		"@types/node": "^12.11.7",
 		"@types/vscode": "^1.51.0",
 		"@typescript-eslint/eslint-plugin": "^4.1.1",
 		"@typescript-eslint/parser": "^4.1.1",
-		"appium-adb": "^8.9.1",
 		"eslint": "^7.9.0",
 		"glob": "^7.1.6",
 		"mocha": "^8.1.3",
